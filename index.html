@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Powering the AI Revolution: The Strategic Role of LNG</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #002266;
+            color: #E0EFFF;
+        }
+       .stat-card {
+            background-color: rgba(0, 68, 204, 0.5);
+            border: 1px solid #0066ff;
+            backdrop-filter: blur(10px);
+        }
+       .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+           .chart-container {
+                height: 350px;
+            }
+        }
+       .flow-arrow {
+            font-size: 2rem;
+            line-height: 1;
+            color: #66aaff;
+        }
+       .flow-box {
+            border: 2px solid #3388ff;
+            background-color: #0044cc;
+        }
+       .stock-card {
+            background-color: #0044cc;
+            border: 1px solid #3388ff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+       .stock-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 102, 255, 0.2);
+        }
+       .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+       .modal-content {
+            background-color: #002266;
+            border: 2px solid #0066ff;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 25px rgba(0, 102, 255, 0.3);
+            position: relative;
+        }
+       .close-button {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #E0EFFF;
+            cursor: pointer;
+        }
+       .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #E0EFFF;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+       .term-explainer {
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-color: #66aaff;
+            text-underline-offset: 4px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-6xl font-black text-white leading-tight mb-4">Powering the AI Revolution</h1>
+            <p class="text-xl md:text-2xl text-[#99ccff] max-w-3xl mx-auto">Liquid Natural Gas (LNG) is the strategic imperative to meet the unprecedented energy demands of AI infrastructure from 2025 to 2035.</p>
+        </header>
+
+        <main>
+            <section id="demand-surge" class="mb-20">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">The AI Energy Crisis is Here</h2>
+                    <p class="text-lg text-[#99ccff] mt-2 max-w-2xl mx-auto">The exponential growth of AI is creating an energy demand surge that existing power grids cannot handle.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+                    <div class="stat-card rounded-xl p-6 text-center">
+                        <p class="text-6xl md:text-7xl font-black text-white">30x</p>
+                        <p class="text-lg text-[#99ccff] mt-2">Projected growth in U.S. AI data center power demand by 2035.</p>
+                    </div>
+                    <div class="md:col-span-2 bg-white/10 rounded-xl p-6 shadow-2xl">
+                        <h3 class="text-xl font-bold text-center text-white mb-4">U.S. Data Center Power Demand Forecast (GW)</h3>
+                        <div class="chart-container h-64 md:h-80 max-h-[350px]">
+                            <canvas id="powerDemandChart"></canvas>
+                        </div>
+                        <p class="text-sm text-center text-[#99ccff] mt-4">This staggering rise highlights the critical need for new, reliable power sources as traditional grid infrastructure faces significant bottlenecks.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="lng-solution" class="mb-20">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">LNG: The Foundational Power Solution</h2>
+                    <p class="text-lg text-[#99ccff] mt-2 max-w-2xl mx-auto">Natural gas provides the reliable, flexible, and scalable power essential for 24/7 data center operations.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="stat-card rounded-xl p-6">
+                        <p class="text-4xl font-bold text-white mb-2">Reliability</p>
+                        <p class="text-[#99ccff]">Provides stable, <span class="term-explainer" data-term="dispatchable baseload power">dispatchable baseload power</span>, complementing intermittent renewables and ensuring 100% uptime for critical AI workloads.</p>
+                    </div>
+                    <div class="stat-card rounded-xl p-6">
+                        <p class="text-4xl font-bold text-white mb-2">Scalability</p>
+                        <p class="text-[#99ccff]">"<span class="term-explainer" data-term="Behind-the-meter">Behind-the-meter</span>" gas plants can be built directly on-site, bypassing grid delays and scaling with multi-gigawatt campus needs.</p>
+                    </div>
+                     <div class="stat-card rounded-xl p-6 lg:col-span-1 md:col-span-2">
+                        <p class="text-4xl font-bold text-white mb-2">Efficiency</p>
+                        <p class="text-[#99ccff]">Modern combined-cycle plants achieve over 60% efficiency, with Combined Heat and Power (CHP) systems reaching up to 80%.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="supply-boom" class="mb-20">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">A Tidal Wave of Global LNG Supply</h2>
+                    <p class="text-lg text-[#99ccff] mt-2 max-w-2xl mx-auto">Massive capacity expansions, led by the U.S. and Qatar, are set to meet rising global demand and stabilize long-term prices.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
+                    <div class="md:col-span-2 flex flex-col gap-y-6">
+                        <div class="stat-card rounded-xl p-6 text-center">
+                            <p class="text-5xl font-black text-white">54%</p>
+                            <p class="text-md text-[#99ccff] mt-1">Projected increase in global LNG supply capacity by 2030.</p>
+                        </div>
+                        <div class="stat-card rounded-xl p-6 text-center">
+                             <p class="text-5xl font-black text-white">~300%</p>
+                            <p class="text-md text-[#99ccff] mt-1">Projected growth in U.S. LNG export capacity by 2030.</p>
+                        </div>
+                    </div>
+                    <div class="md:col-span-3 bg-white/10 rounded-xl p-6 shadow-2xl">
+                         <h3 class="text-xl font-bold text-center text-white mb-4">Projected LNG Capacity Growth by 2030 (<span class="term-explainer" data-term="Mtpa">Mtpa</span>)</h3>
+                        <div class="chart-container h-80 max-h-[400px]">
+                            <canvas id="lngSupplyChart"></canvas>
+                        </div>
+                        <p class="text-sm text-center text-[#99ccff] mt-4">The United States is poised to supply over a third of global LNG, reinforcing energy security for itself and its allies.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="decarbonization" class="mb-20">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">The Pathway to Cleaner Gas</h2>
+                    <p class="text-lg text-[#99ccff] mt-2 max-w-2xl mx-auto">Innovation in hydrogen blending and carbon capture is securing the long-term viability of natural gas.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+                    <div class="flow-box rounded-xl p-6">
+                        <h3 class="text-2xl font-bold text-white mb-4">Hydrogen Blending</h3>
+                        <p class="text-[#99ccff] mb-4">New gas turbines are being designed "hydrogen-ready," capable of blending cleaner-burning hydrogen to reduce emissions.</p>
+                        <div class="flex items-center justify-center space-x-4">
+                            <div class="p-3 bg-[#002266] rounded-lg">Natural Gas</div>
+                            <div class="flow-arrow">+</div>
+                            <div class="p-3 bg-[#002266] rounded-lg">Hydrogen</div>
+                        </div>
+                    </div>
+                    <div class="flow-box rounded-xl p-6">
+                        <h3 class="text-2xl font-bold text-white mb-4">Carbon Capture (<span class="term-explainer" data-term="CCUS">CCUS</span>)</h3>
+                        <p class="text-[#99ccff] mb-4">Technology captures over 90% of CO2 emissions from power plants for permanent storage, a key strategy for majors like ExxonMobil.</p>
+                        <div class="flex items-center justify-center space-x-4">
+                             <div class="p-3 bg-[#002266] rounded-lg">Power Plant</div>
+                             <div class="flow-arrow">→</div>
+                             <div class="p-3 bg-[#002266] rounded-lg">CO2 Capture</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="investments" class="mb-20">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Bullish Long-Term Investment Opportunities</h2>
+                    <p class="text-lg text-[#99ccff] mt-2 max-w-2xl mx-auto">Companies across the LNG value chain with strong fundamentals and strategic data center initiatives are poised for growth.</p>
+                </div>
+
+                <div class="space-y-10">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white border-b-2 border-[#3388ff] pb-2 mb-6">Major LNG Producers & Exporters</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="stock-card rounded-lg p-6">
+                                <p class="text-xl font-bold text-white">Cheniere Energy (LNG)</p>
+                                <p class="text-[#99ccff] mt-2">The largest U.S. LNG producer, acting as a "toll booth" for AI energy demand with 95% of capacity under long-term contracts.</p>
+                                <button class="get-ai-insights-btn mt-4 px-4 py-2 bg-[#0066ff] text-white rounded-md hover:bg-[#3388ff] transition-colors" data-stock-name="Cheniere Energy" data-ticker="LNG">Get AI Insights ✨</button>
+                            </div>
+                            <div class="stock-card rounded-lg p-6">
+                                <p class="text-xl font-bold text-white">Venture Global LNG (VG)</p>
+                                <p class="text-[#99ccff] mt-2">A rapidly growing, low-cost producer with a massive development pipeline and integrated CCS projects.</p>
+                                <button class="get-ai-insights-btn mt-4 px-4 py-2 bg-[#0066ff] text-white rounded-md hover:bg-[#3388ff] transition-colors" data-stock-name="Venture Global LNG" data-ticker="VG">Get AI Insights ✨</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-2xl font-bold text-white border-b-2 border-[#3388ff] pb-2 mb-6">Integrated Energy Majors</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            <div class="stock-card rounded-lg p-6">
+                                <p class="text-xl font-bold text-white">Chevron (CVX)</p>
+                                <p class="text-[#99ccff] mt-2">Partnering to build dedicated "behind-the-meter" gas power plants for data centers.</p>
+                                <button class="get-ai-insights-btn mt-4 px-4 py-2 bg-[#0066ff] text-white rounded-md hover:bg-[#3388ff] transition-colors" data-stock-name="Chevron" data-ticker="CVX">Get AI Insights ✨</button>
+                            </div>
+                            <div class="stock-card rounded-lg p-6">
+                                <p class="text-xl font-bold text-white">ExxonMobil (XOM)</p>
+                                <p class="text-[#99ccff] mt-2">Pioneering large-scale gas plants with integrated CCUS to sell low-carbon power directly to AI clients.</p>
+                                <button class="get-ai-insights-btn mt-4 px-4 py-2 bg-[#0066ff] text-white rounded-md hover:bg-[#3388ff] transition-colors" data-stock-name="ExxonMobil" data-ticker="XOM">Get AI Insights ✨</button>
+                            </div>
+                            <div class="stock-card rounded-lg p-6">
+                                <p class="text-xl font-bold text-white">Shell (SHEL)</p>
+                                <p class="text-[#99ccff] mt-2">A world-leading LNG supplier also innovating in data center cooling and renewable solutions.</p>
+                                <button class="get-ai-insights-btn mt-4 px-4 py-2 bg-[#0066ff] text-white rounded-md hover:bg-[#3388ff] transition-colors" data-stock-name="Shell" data-ticker="SHEL">Get AI Insights ✨</button>
+                            </div>
+                            <div class="stock-card rounded-lg p-6">
+                                <p class="text-xl font-bold text-white">TotalEnergies (TTE)</p>
+                                <p class="text-[#99ccff] mt-2">Leading U.S. LNG exporter, acquiring flexible gas power plants in key data center markets like Texas.</p>
+                                <button class="get-ai-insights-btn mt-4 px-4 py-2 bg-[#0066ff] text-white rounded-md hover:bg-[#3388ff] transition-colors" data-stock-name="TotalEnergies" data-ticker="TTE">Get AI Insights ✨</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-2xl font-bold text-white border-b-2 border-[#3388ff] pb-2 mb-6">Infrastructure & Utilities</h3>
+                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="stock-card rounded-lg p-6">
+                                <p class="text-xl font-bold text-white">Enbridge (ENB)</p>
+                                <p class="text-[#99ccff] mt-2">Investing $2B in solar and natural gas pipeline expansions to directly serve data center growth.</p>
+                                <button class="get-ai-insights-btn mt-4 px-4 py-2 bg-[#0066ff] text-white rounded-md hover:bg-[#3388ff] transition-colors" data-stock-name="Enbridge" data-ticker="ENB">Get AI Insights ✨</button>
+                            </div>
+                            <div class="stock-card rounded-lg p-6">
+                                <p class="text-xl font-bold text-white">Sempra (SRE)</p>
+                                <p class="text-[#99ccff] mt-2">Premier energy infrastructure company with a ~40 Mtpa LNG portfolio under development to power digital infrastructure.</p>
+                                <button class="get-ai-insights-btn mt-4 px-4 py-2 bg-[#0066ff] text-white rounded-md hover:bg-[#3388ff] transition-colors" data-stock-name="Sempra" data-ticker="SRE">Get AI Insights ✨</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ask-ai" class="mb-20 bg-white/10 rounded-xl p-6 shadow-2xl">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Ask AI About LNG & AI ✨</h2>
+                    <p class="text-lg text-[#99ccff] mt-2 max-w-2xl mx-auto">Get quick answers to your questions about LNG's role in AI infrastructure.</p>
+                </div>
+                <div class="flex flex-col md:flex-row gap-4 mb-6">
+                    <input type="text" id="aiQuestionInput" placeholder="e.g., How does LNG compare to renewables for AI power?" class="flex-grow p-3 rounded-md bg-[#0044cc] text-white placeholder-[#99ccff] border border-[#3388ff] focus:outline-none focus:ring-2 focus:ring-[#66aaff]">
+                    <button id="askAiButton" class="px-6 py-3 bg-[#0066ff] text-white rounded-md hover:bg-[#3388ff] transition-colors font-semibold">Ask AI ✨</button>
+                </div>
+                <div id="aiAnswerContainer" class="bg-[#0044cc] rounded-md p-4 min-h-[80px] flex items-center justify-center text-center">
+                    <div id="aiAnswerLoading" class="loading-spinner hidden"></div>
+                    <p id="aiAnswerContent" class="text-[#E0EFFF] text-lg"></p>
+                </div>
+            </section>
+
+            <section id="risks" class="mb-12">
+                 <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">Navigating the Risks</h2>
+                    <p class="text-lg text-[#99ccff] mt-2 max-w-2xl mx-auto">A balanced investment thesis must consider potential headwinds.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                    <div class="stat-card rounded-lg p-4">
+                        <p class="text-lg font-semibold text-white">Geopolitics</p>
+                        <p class="text-sm text-[#99ccff]">Supply chain disruptions and trade policy shifts.</p>
+                    </div>
+                    <div class="stat-card rounded-lg p-4">
+                        <p class="text-lg font-semibold text-white">Price Volatility</p>
+                        <p class="text-sm text-[#99ccff]">Short-term fluctuations in natural gas prices.</p>
+                    </div>
+                    <div class="stat-card rounded-lg p-4">
+                        <p class="text-lg font-semibold text-white">Regulation</p>
+                        <p class="text-sm text-[#99ccff]">Clash between federal incentives and local opposition.</p>
+                    </div>
+                    <div class="stat-card rounded-lg p-4">
+                        <p class="text-lg font-semibold text-white">Competition</p>
+                        <p class="text-sm text-[#99ccff]">Pace of alternative energy adoption (renewables, nuclear).</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-16 border-t border-[#3388ff] pt-8">
+            <p class="text-[#99ccff]">This infographic is based on the report "Powering the AI Revolution: The Strategic Imperative of LNG in Data Center Infrastructure and Investment Opportunities (2025-2035)". Data is synthesized for illustrative purposes. Always conduct your own due diligence before investing.</p>
+        </footer>
+
+    </div>
+
+    <div id="summaryModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="closeSummaryModal" class="close-button">&times;</button>
+            <h3 id="summaryTitle" class="text-2xl font-bold text-white mb-4"></h3>
+            <div id="loadingIndicator" class="flex justify-center items-center h-24 hidden">
+                <div class="loading-spinner"></div>
+            </div>
+            <p id="summaryContent" class="text-[#E0EFFF] text-lg"></p>
+        </div>
+    </div>
+
+    <script>
+        (function() { // IIFE starts here to prevent global variable conflicts
+            const brilliantBlues = {
+                deep: '#0044cc',
+                bright: '#0066ff',
+                medium: '#3388ff',
+                light: '#66aaff',
+                veryLight: '#99ccff',
+                darkest: '#002266',
+                text: '#E0EFFF'
+            };
+
+            function wrapLabel(str, maxWidth) {
+                if (str.length <= maxWidth) {
+                    return str;
+                }
+                const words = str.split(' ');
+                let lines =;
+                let currentLine = words;
+                for (let i = 1; i < words.length; i++) {
+                    if (currentLine.length + words[i].length + 1 < maxWidth) {
+                        currentLine += ' ' + words[i];
+                    } else {
+                        lines.push(currentLine);
+                        currentLine = words[i];
+                    }
+                }
+                lines.push(currentLine);
+                return lines;
+            }
+
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems;
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                }
+                return label;
+            };
+            
+            const defaultChartOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: brilliantBlues.text,
+                            font: {
+                                size: 14
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: tooltipTitleCallback
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: brilliantBlues.text,
+                        },
+                        grid: {
+                            color: 'rgba(153, 204, 255, 0.2)'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: brilliantBlues.text,
+                        },
+                        grid: {
+                            color: 'rgba(153, 204, 255, 0.2)'
+                        }
+                    }
+                }
+            };
+
+            const powerDemandData = {
+                labels: ['2024', '2027', '2030', '2035'],
+                datasets:,
+                    fill: true,
+                    backgroundColor: 'rgba(102, 170, 255, 0.3)',
+                    borderColor: brilliantBlues.light,
+                    tension: 0.4,
+                    pointBackgroundColor: brilliantBlues.text,
+                    pointBorderColor: brilliantBlues.light,
+                    pointHoverRadius: 7
+                }]
+            };
+
+            new Chart(document.getElementById('powerDemandChart'), {
+                type: 'line',
+                data: powerDemandData,
+                options: defaultChartOptions
+            });
+
+            const lngSupplyData = {
+                labels:,
+                datasets: [
+                    {
+                        label: '2024 Capacity (Mtpa)',
+                        data: ,
+                        backgroundColor: brilliantBlues.medium,
+                        borderColor: brilliantBlues.light,
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Projected 2030 Capacity (Mtpa)',
+                        data: ,
+                        backgroundColor: brilliantBlues.bright,
+                        borderColor: brilliantBlues.veryLight,
+                        borderWidth: 1
+                    }
+                ]
+            };
+            
+            // Manually merge properties from defaultChartOptions to avoid spread syntax error
+            const lngChartOptions = {};
+            for (const key in defaultChartOptions) {
+                lngChartOptions[key] = defaultChartOptions[key];
+            }
+            lngChartOptions.indexAxis = 'y'; // Add specific property for this chart
+
+            new Chart(document.getElementById('lngSupplyChart'), {
+                type: 'bar',
+                data: lngSupplyData,
+                options: lngChartOptions
+            });
+
+            async function callGeminiAPI(prompt, targetElement, titleElement = null, isModal = false) {
+                const loadingIndicator = isModal? document.getElementById('loadingIndicator') : document.getElementById('aiAnswerLoading');
+                const contentElement = isModal? document.getElementById('summaryContent') : document.getElementById('aiAnswerContent');
+
+                if (titleElement) titleElement.textContent = isModal? titleElement.textContent : 'Generating Answer...';
+                contentElement.textContent = '';
+                loadingIndicator.classList.remove('hidden');
+                if (isModal) document.getElementById('summaryModal').classList.remove('hidden');
+
+                // --- IMPORTANT: This is the Cloud Run service URL ---
+                const cloudRunServiceUrl = "https://geminiproxy-4px3llou4a-uc.a.run.app"; 
+                // --- No API key needed here, as it's handled by the Cloud Run service ---
+
+                try {
+                    const response = await fetch(cloudRunServiceUrl, { 
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ prompt: prompt }) 
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.text();
+                        console.error(`Cloud Run service error: ${response.status} - ${errorData}`);
+                        contentElement.textContent = `Error: ${errorData |
+
+| 'Could not get response from AI service.'}`;
+                        return;
+                    }
+
+                    const result = await response.json();
+                    if (result.text) {
+                        contentElement.textContent = result.text;
+                    } else {
+                        contentElement.textContent = "Could not generate response from AI. Please try again.";
+                    }
+                } catch (error) {
+                    console.error("Error calling Cloud Run service:", error);
+                    contentElement.textContent = "Error communicating with AI service. Please try again.";
+                } finally {
+                    loadingIndicator.classList.add('hidden');
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                // Stock Insights Button Listener
+                document.querySelectorAll('.get-ai-insights-btn').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const stockName = event.target.dataset.stockName;
+                        const ticker = event.target.dataset.ticker;
+                        const summaryTitle = document.getElementById('summaryTitle');
+                        summaryTitle.textContent = `AI Insights for ${stockName} (${ticker})`;
+                        const prompt = `Provide a concise investment summary for ${stockName} (${ticker}) focusing on its role and potential in the context of the AI infrastructure build-out and the growing demand for Liquid Natural Gas (LNG). Highlight key strengths and potential risks specific to this intersection. Keep it under 150 words.`;
+                        callGeminiAPI(prompt, 'summaryContent', summaryTitle, true);
+                    });
+                });
+
+                // Glossary Term Explainer Listener
+                document.querySelectorAll('.term-explainer').forEach(term => {
+                    term.addEventListener('click', (event) => {
+                        const termText = event.target.dataset.term;
+                        const summaryTitle = document.getElementById('summaryTitle');
+                        summaryTitle.textContent = `What is "${termText}"?`;
+                        const prompt = `Explain "${termText}" concisely in the context of energy and AI infrastructure, suitable for a general audience. Keep it under 50 words.`;
+                        callGeminiAPI(prompt, 'summaryContent', summaryTitle, true);
+                    });
+                });
+
+                // Close Modal Button Listener
+                document.getElementById('closeSummaryModal').addEventListener('click', () => {
+                    document.getElementById('summaryModal').classList.add('hidden');
+                });
+
+                // Ask AI Button Listener
+                document.getElementById('askAiButton').addEventListener(() => { // Changed event listener to use arrow function
+                    const questionInput = document.getElementById('aiQuestionInput');
+                    const userQuestion = questionInput.value.trim();
+                    if (userQuestion) {
+                        const prompt = `Answer the following question about LNG and AI infrastructure: "${userQuestion}". Keep the answer concise and informative, under 100 words.`;
+                        callGeminiAPI(prompt, 'aiAnswerContent', null, false);
+                    } else {
+                        document.getElementById('aiAnswerContent').textContent = "Please enter a question.";
+                    }
+                });
+            });
+        })(); // IIFE ends here
+    </script>
+</body>
+</html>
