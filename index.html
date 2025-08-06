@@ -434,8 +434,8 @@
             options: defaultChartOptions
         });
 
-        // Updated LNG Supply Data for Pie Chart
-        const lngSupplyDataPie = {
+        // Updated LNG Supply Data for Doughnut Chart
+        const lngSupplyDataDoughnut = {
             labels: ['United States Projected 2030 Capacity', 'Qatar Projected 2030 Capacity'],
             datasets: [
                 {
@@ -455,8 +455,8 @@
         };
         
         new Chart(document.getElementById('lngSupplyChart'), {
-            type: 'pie', // Changed to pie chart
-            data: lngSupplyDataPie,
+            type: 'doughnut', // Changed to doughnut chart
+            data: lngSupplyDataDoughnut, // Using the doughnut-specific data
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
