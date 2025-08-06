@@ -336,48 +336,130 @@
     </div>
 
     <script>
-        (function() { // IIFE starts here to prevent global variable conflicts
-            const brilliantBlues = {
-                deep: '#0044cc',
-                bright: '#0066ff',
-                medium: '#3388ff',
-                light: '#66aaff',
-                veryLight: '#99ccff',
-                darkest: '#002266',
-                text: '#E0EFFF'
-            };
+        const brilliantBlues = {
+            deep: '#0044cc',
+            bright: '#0066ff',
+            medium: '#3388ff',
+            light: '#66aaff',
+            veryLight: '#99ccff',
+            darkest: '#002266',
+            text: '#E0EFFF'
+        };
 
-            function wrapLabel(str, maxWidth) {
-                if (str.length <= maxWidth) {
-                    return str;
+        function wrapLabel(str, maxWidth) {
+            if (str.length <= maxWidth) {
+                return str;
+            }
+            const words = str.split(' ');
+            let lines = [];
+            let currentLine = words[0];
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + words[i].length + 1 < maxWidth) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
                 }
-                const words = str.split(' ');
-                let lines = []; 
-                let currentLine = words[0]; 
-                for (let i = 1; i < words.length; i++) {
-                    if (currentLine.length + words[i].length + 1 < maxWidth) {
-                        currentLine += ' ' + words[i];
-                    } else {
-                        lines.push(currentLine);
-                        currentLine = words[i];
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+                return label.join(' ');
+            }
+            return label;
+        };
+        
+        const defaultChartOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: brilliantBlues.text,
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
                     }
                 }
-                lines.push(currentLine);
-                return lines;
-            }
-
-            const tooltipTitleCallback = (tooltipItems) => {
-                const item = tooltipItems[0]; 
-                let label = item.chart.data.labels[item.dataIndex];
-                if (Array.isArray(label)) {
-                    return label.join(' ');
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: brilliantBlues.text,
+                    },
+                    grid: {
+                        color: 'rgba(153, 204, 255, 0.2)'
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: brilliantBlues.text,
+                    },
+                    grid: {
+                        color: 'rgba(153, 204, 255, 0.2)'
+                    }
                 }
-                return label;
-            };
-            
-            const defaultChartOptions = {
-                maintainAspectRatio: false,
+            }
+        };
+
+        const powerDemandData = {
+            labels: ['2024', '2027', '2030', '2035'],
+            datasets: [{
+                label: 'U.S. Data Center Power Demand (GW)',
+                data: [35, 84, 100, 123],
+                fill: true,
+                backgroundColor: 'rgba(102, 170, 255, 0.3)',
+                borderColor: brilliantBlues.light,
+                tension: 0.4,
+                pointBackgroundColor: brilliantBlues.text,
+                pointBorderColor: brilliantBlues.light,
+                pointHoverRadius: 7
+            }]
+        };
+
+        new Chart(document.getElementById('powerDemandChart'), {
+            type: 'line',
+            data: powerDemandData,
+            options: defaultChartOptions
+        });
+
+        // Updated LNG Supply Data for Pie Chart
+        const lngSupplyDataPie = {
+            labels: ['United States Projected 2030 Capacity', 'Qatar Projected 2030 Capacity'],
+            datasets: [
+                {
+                    label: 'Projected 2030 Capacity (Mtpa)',
+                    data: [340, 142], // Using only the 2030 projected data
+                    backgroundColor: [
+                        brilliantBlues.bright, // For United States
+                        brilliantBlues.medium  // For Qatar
+                    ],
+                    borderColor: [
+                        brilliantBlues.veryLight,
+                        brilliantBlues.light
+                    ],
+                    borderWidth: 1
+                }
+            ]
+        };
+        
+        new Chart(document.getElementById('lngSupplyChart'), {
+            type: 'pie', // Changed to pie chart
+            data: lngSupplyDataPie,
+            options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
                     legend: {
                         labels: {
@@ -389,168 +471,121 @@
                     },
                     tooltip: {
                         callbacks: {
-                            title: tooltipTitleCallback
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            color: brilliantBlues.text,
-                        },
-                        grid: {
-                            color: 'rgba(153, 204, 255, 0.2)'
-                        }
-                    },
-                    x: {
-                        ticks: {
-                            color: brilliantBlues.text,
-                        },
-                        grid: {
-                            color: 'rgba(153, 204, 255, 0.2)'
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed !== null) {
+                                    label += context.parsed + ' Mtpa';
+                                }
+                                return label;
+                            }
                         }
                     }
                 }
-            };
-
-            const powerDemandData = {
-                labels: ['2024', '2027', '2030', '2035'],
-                datasets: [{ 
-                    label: 'U.S. Data Center Power Demand (GW)',
-                    data: [35, 84, 100, 123],
-                    fill: true,
-                    backgroundColor: 'rgba(102, 170, 255, 0.3)',
-                    borderColor: brilliantBlues.light,
-                    tension: 0.4,
-                    pointBackgroundColor: brilliantBlues.text,
-                    pointBorderColor: brilliantBlues.light,
-                    pointHoverRadius: 7
-                }]
-            };
-
-            new Chart(document.getElementById('powerDemandChart'), {
-                type: 'line',
-                data: powerDemandData,
-                options: defaultChartOptions
-            });
-
-            const lngSupplyData = {
-                labels: ['United States', 'Qatar'], 
-                datasets: [
-                    {
-                        label: '2024 Capacity (Mtpa)',
-                        data: [86, 77], 
-                        backgroundColor: brilliantBlues.medium,
-                        borderColor: brilliantBlues.light,
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Projected 2030 Capacity (Mtpa)',
-                        data: [340, 142], 
-                        backgroundColor: brilliantBlues.bright,
-                        borderColor: brilliantBlues.veryLight,
-                        borderWidth: 1
-                    }
-                ]
-            };
-            
-            // Manually merge properties from defaultChartOptions to avoid spread syntax error
-            const lngChartOptions = {};
-            for (const key in defaultChartOptions) {
-                lngChartOptions[key] = defaultChartOptions[key];
             }
-            lngChartOptions.indexAxis = 'y'; // Add specific property for this chart
+        });
 
-            new Chart(document.getElementById('lngSupplyChart'), {
-                type: 'bar',
-                data: lngSupplyData,
-                options: lngChartOptions
-            });
+        async function callGeminiAPI(prompt, targetElement, titleElement = null, isModal = false) {
+            const loadingIndicator = isModal ? document.getElementById('loadingIndicator') : document.getElementById('aiAnswerLoading');
+            const contentElement = isModal ? document.getElementById('summaryContent') : document.getElementById('aiAnswerContent');
 
-            async function callGeminiAPI(prompt, targetElement, titleElement = null, isModal = false) {
-                const loadingIndicator = isModal? document.getElementById('loadingIndicator') : document.getElementById('aiAnswerLoading');
-                const contentElement = isModal? document.getElementById('summaryContent') : document.getElementById('aiAnswerContent');
+            if (titleElement) titleElement.textContent = isModal ? titleElement.textContent : 'Generating Answer...';
+            contentElement.textContent = '';
+            loadingIndicator.classList.remove('hidden');
+            if (isModal) document.getElementById('summaryModal').classList.remove('hidden');
 
-                if (titleElement) titleElement.textContent = isModal? titleElement.textContent : 'Generating Answer...';
-                contentElement.textContent = '';
-                loadingIndicator.classList.remove('hidden');
-                if (isModal) document.getElementById('summaryModal').classList.remove('hidden');
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+            const apiKey = ""; // Replace with your actual API key
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
-                // --- IMPORTANT: This is the Cloud Run service URL ---
-                const cloudRunServiceUrl = "https://geminiproxy-716913513086.us-central1.run.app"; 
-                // --- No API key needed here, as it's handled by the Cloud Run service ---
+            let retries = 0;
+            const maxRetries = 5;
+            let delay = 1000; // 1 second
 
+            while (retries < maxRetries) {
                 try {
-                    const response = await fetch(cloudRunServiceUrl, { 
+                    const response = await fetch(apiUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ prompt: prompt }) 
+                        body: JSON.stringify(payload)
                     });
 
                     if (!response.ok) {
-                        const errorData = await response.text();
-                        console.error(`Cloud Run service error: ${response.status} - ${errorData}`);
-                        contentElement.textContent = `Error: ${errorData || 'Could not get response from AI service.'}`; 
-                        return;
+                        if (response.status === 429) { // Too Many Requests
+                            retries++;
+                            delay *= 2; // Exponential backoff
+                            await new Promise(res => setTimeout(res, delay));
+                            continue; // Retry
+                        } else {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
                     }
 
                     const result = await response.json();
-                    if (result.text) {
-                        contentElement.textContent = result.text;
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        contentElement.textContent = text;
                     } else {
-                        contentElement.textContent = "Could not generate response from AI. Please try again.";
+                        contentElement.textContent = "Could not generate response. Please try again.";
                     }
+                    break; // Success, exit loop
                 } catch (error) {
-                    console.error("Error calling Cloud Run service:", error);
-                    contentElement.textContent = "Error communicating with AI service. Please try again.";
+                    console.error("Error fetching LLM summary:", error);
+                    contentElement.textContent = "Error generating response. Please try again.";
+                    break; // Exit loop on unrecoverable error
                 } finally {
                     loadingIndicator.classList.add('hidden');
                 }
             }
+        }
 
-            document.addEventListener('DOMContentLoaded', () => {
-                // Stock Insights Button Listener
-                document.querySelectorAll('.get-ai-insights-btn').forEach(button => {
-                    button.addEventListener('click', (event) => {
-                        const stockName = event.target.dataset.stockName;
-                        const ticker = event.target.dataset.ticker;
-                        const summaryTitle = document.getElementById('summaryTitle');
-                        summaryTitle.textContent = `AI Insights for ${stockName} (${ticker})`;
-                        const prompt = `Provide a concise investment summary for ${stockName} (${ticker}) focusing on its role and potential in the context of the AI infrastructure build-out and the growing demand for Liquid Natural Gas (LNG). Highlight key strengths and potential risks specific to this intersection. Keep it under 150 words.`;
-                        callGeminiAPI(prompt, 'summaryContent', summaryTitle, true);
-                    });
-                });
-
-                // Glossary Term Explainer Listener
-                document.querySelectorAll('.term-explainer').forEach(term => {
-                    term.addEventListener('click', (event) => {
-                        const termText = event.target.dataset.term;
-                        const summaryTitle = document.getElementById('summaryTitle');
-                        summaryTitle.textContent = `What is "${termText}"?`;
-                        const prompt = `Explain "${termText}" concisely in the context of energy and AI infrastructure, suitable for a general audience. Keep it under 50 words.`;
-                        callGeminiAPI(prompt, 'summaryContent', summaryTitle, true);
-                    });
-                });
-
-                // Close Modal Button Listener
-                document.getElementById('closeSummaryModal').addEventListener('click', () => {
-                    document.getElementById('summaryModal').classList.add('hidden');
-                });
-
-                // Ask AI Button Listener
-                document.getElementById('askAiButton').addEventListener('click', () => { 
-                    const questionInput = document.getElementById('aiQuestionInput');
-                    const userQuestion = questionInput.value.trim();
-                    if (userQuestion) {
-                        const prompt = `Answer the following question about LNG and AI infrastructure: "${userQuestion}". Keep the answer concise and informative, under 100 words.`;
-                        callGeminiAPI(prompt, 'aiAnswerContent', null, false);
-                    } else {
-                        document.getElementById('aiAnswerContent').textContent = "Please enter a question.";
-                    }
+        document.addEventListener('DOMContentLoaded', () => {
+            // Stock Insights Button Listener
+            document.querySelectorAll('.get-ai-insights-btn').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const stockName = event.target.dataset.stockName;
+                    const ticker = event.target.dataset.ticker;
+                    const summaryTitle = document.getElementById('summaryTitle');
+                    summaryTitle.textContent = `AI Insights for ${stockName} (${ticker})`;
+                    const prompt = `Provide a concise investment summary for ${stockName} (${ticker}) focusing on its role and potential in the context of the AI infrastructure build-out and the growing demand for Liquid Natural Gas (LNG). Highlight key strengths and potential risks specific to this intersection. Keep it under 150 words.`;
+                    callGeminiAPI(prompt, 'summaryContent', summaryTitle, true);
                 });
             });
-        })(); // IIFE ends here
+
+            // Glossary Term Explainer Listener
+            document.querySelectorAll('.term-explainer').forEach(term => {
+                term.addEventListener('click', (event) => {
+                    const termText = event.target.dataset.term;
+                    const summaryTitle = document.getElementById('summaryTitle');
+                    summaryTitle.textContent = `What is "${termText}"?`;
+                    const prompt = `Explain "${termText}" concisely in the context of energy and AI infrastructure, suitable for a general audience. Keep it under 50 words.`;
+                    callGeminiAPI(prompt, 'summaryContent', summaryTitle, true);
+                });
+            });
+
+            // Close Modal Button Listener
+            document.getElementById('closeSummaryModal').addEventListener('click', () => {
+                document.getElementById('summaryModal').classList.add('hidden');
+            });
+
+            // Ask AI Button Listener
+            document.getElementById('askAiButton').addEventListener('click', () => {
+                const questionInput = document.getElementById('aiQuestionInput');
+                const userQuestion = questionInput.value.trim();
+                if (userQuestion) {
+                    const prompt = `Answer the following question about LNG and AI infrastructure: "${userQuestion}". Keep the answer concise and informative, under 100 words.`;
+                    callGeminiAPI(prompt, 'aiAnswerContent', null, false);
+                } else {
+                    document.getElementById('aiAnswerContent').textContent = "Please enter a question.";
+                }
+            });
+        });
     </script>
 </body>
 </html>
