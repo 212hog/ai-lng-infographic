@@ -323,6 +323,7 @@
 
     </div>
 
+    <!-- AI Insights Modal (reused for Glossary) -->
     <div id="summaryModal" class="modal-overlay hidden">
         <div class="modal-content">
             <button id="closeSummaryModal" class="close-button">&times;</button>
@@ -351,8 +352,8 @@
                     return str;
                 }
                 const words = str.split(' ');
-                let lines =;
-                let currentLine = words;
+                let lines = []; 
+                let currentLine = words[0]; 
                 for (let i = 1; i < words.length; i++) {
                     if (currentLine.length + words[i].length + 1 < maxWidth) {
                         currentLine += ' ' + words[i];
@@ -366,7 +367,7 @@
             }
 
             const tooltipTitleCallback = (tooltipItems) => {
-                const item = tooltipItems;
+                const item = tooltipItems[0]; 
                 let label = item.chart.data.labels[item.dataIndex];
                 if (Array.isArray(label)) {
                     return label.join(' ');
@@ -415,7 +416,9 @@
 
             const powerDemandData = {
                 labels: ['2024', '2027', '2030', '2035'],
-                datasets:,
+                datasets: [{ 
+                    label: 'U.S. Data Center Power Demand (GW)',
+                    data: [35, 84, 100, 123],
                     fill: true,
                     backgroundColor: 'rgba(102, 170, 255, 0.3)',
                     borderColor: brilliantBlues.light,
@@ -433,18 +436,18 @@
             });
 
             const lngSupplyData = {
-                labels:,
+                labels: ['United States', 'Qatar'], 
                 datasets: [
                     {
                         label: '2024 Capacity (Mtpa)',
-                        data: ,
+                        data: [86, 77], 
                         backgroundColor: brilliantBlues.medium,
                         borderColor: brilliantBlues.light,
                         borderWidth: 1
                     },
                     {
                         label: 'Projected 2030 Capacity (Mtpa)',
-                        data: ,
+                        data: [340, 142], 
                         backgroundColor: brilliantBlues.bright,
                         borderColor: brilliantBlues.veryLight,
                         borderWidth: 1
@@ -475,7 +478,7 @@
                 if (isModal) document.getElementById('summaryModal').classList.remove('hidden');
 
                 // --- IMPORTANT: This is the Cloud Run service URL ---
-                const cloudRunServiceUrl = "https://geminiproxy-4px3llou4a-uc.a.run.app"; 
+                const cloudRunServiceUrl = "https://geminiproxy-716913513086.us-central1.run.app"; 
                 // --- No API key needed here, as it's handled by the Cloud Run service ---
 
                 try {
@@ -488,9 +491,7 @@
                     if (!response.ok) {
                         const errorData = await response.text();
                         console.error(`Cloud Run service error: ${response.status} - ${errorData}`);
-                        contentElement.textContent = `Error: ${errorData |
-
-| 'Could not get response from AI service.'}`;
+                        contentElement.textContent = `Error: ${errorData || 'Could not get response from AI service.'}`; 
                         return;
                     }
 
@@ -538,7 +539,7 @@
                 });
 
                 // Ask AI Button Listener
-                document.getElementById('askAiButton').addEventListener(() => { // Changed event listener to use arrow function
+                document.getElementById('askAiButton').addEventListener('click', () => { 
                     const questionInput = document.getElementById('aiQuestionInput');
                     const userQuestion = questionInput.value.trim();
                     if (userQuestion) {
